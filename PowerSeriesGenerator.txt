@@ -1,0 +1,99 @@
+==================================== java 7 ==================
+/**
+ * SeriesCalculator.java
+ *
+ * This program solves the "Java Loops II" problem from HackerRank.
+ * For each query, it generates a mathematical series based on the formula:
+ *   term_i = a + b * (2^0 + 2^1 + ... + 2^i)
+ *
+ * Each query takes three integers (a, b, n) and outputs n terms of the series.
+ *
+ * 📥 Input:
+ * - The first line contains an integer t (number of queries).
+ * - The next t lines contain three integers each: a, b, and n.
+ *
+ * 📤 Output:
+ * - For each query, print n space-separated integers representing the series.
+ *
+ * 🧪 Sample Input:
+ *   2
+ *   0 2 10
+ *   5 3 5
+ *
+ * ✅ Sample Output:
+ *   2 6 14 30 62 126 254 510 1022 2046
+ *   8 14 26 50 98
+ *
+ * 📌 Constraints:
+ * - 0 <= t <= 500
+ * - 0 <= a, b <= 50
+ * - 1 <= n <= 15
+ *
+ * Developed by: [Your Name]
+ * Date: [Date you save it]
+ */
+
+import java.util.*;
+import java.io.*;
+
+public class SeriesCalculator {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt(); // number of test cases
+
+        for (int i = 0; i < t; i++) {
+            int a = in.nextInt(); // base value
+            int b = in.nextInt(); // multiplier
+            int n = in.nextInt(); // number of terms
+
+            int sum = a;
+            for (int j = 0; j < n; j++) {
+                sum += (int) (Math.pow(2, j) * b);
+                System.out.print(sum + " ");
+            }
+            System.out.println(); // move to next line after each test case
+        }
+        in.close();
+    }
+}
+============================================ java 8 =================================
+/**
+ * PowerSeriesGenerator.java
+ *
+ * A Java 8+ implementation of the HackerRank "Java Loops II" problem
+ * using Streams and functional-style constructs.
+ *
+ * This class reads a number of queries and generates a mathematical series:
+ *   term_i = a + b * (2^0 + 2^1 + ... + 2^i)
+ *
+ * Developed with Java 8 Streams.
+ */
+
+import java.util.*;
+import java.util.stream.*;
+
+public class PowerSeriesGenerator {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt(); // Number of test cases
+
+        for (int q = 0; q < t; q++) {
+            int a = in.nextInt();
+            int b = in.nextInt();
+            int n = in.nextInt();
+
+            AtomicInteger sum = new AtomicInteger(a);
+
+            String result = IntStream.range(0, n)
+                .mapToObj(i -> {
+                    int term = (int) Math.pow(2, i) * b;
+                    return String.valueOf(sum.addAndGet(term));
+                })
+                .collect(Collectors.joining(" "));
+
+            System.out.println(result);
+        }
+
+        in.close();
+    }
+}
