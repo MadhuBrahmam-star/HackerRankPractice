@@ -1,0 +1,59 @@
+/**
+ * DayOfWeekFinder.java
+ *
+ * This program reads a specific date in the format (MM DD YYYY) and returns the name
+ * of the day of the week for that date in uppercase letters.
+ *
+ * This solution is based on the HackerRank problem: "Java Date and Time"
+ * Link: https://www.hackerrank.com/challenges/java-date-and-time
+ *
+ * Usage:
+ * Input: A date as three integers (month, day, year)
+ * Output: The corresponding day of the week in uppercase (e.g., MONDAY)
+ *
+ * Author: [Your Name]
+ * Date: [Today's Date]
+ */
+
+import java.io.*;
+import java.util.*;
+
+class DayOfWeekFinder {
+
+    /**
+     * Returns the day of the week for a given date.
+     *
+     * @param month Month (1-12)
+     * @param day   Day of the month
+     * @param year  Year
+     * @return      Name of the day in uppercase (e.g., MONDAY)
+     */
+    public static String findDay(int month, int day, int year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, day); // Months are 0-based in Calendar
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        String[] daysOfWeek = {
+            "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY",
+            "THURSDAY", "FRIDAY", "SATURDAY"
+        };
+        return daysOfWeek[dayOfWeek - 1];
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] dateParts = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+        int month = Integer.parseInt(dateParts[0]);
+        int day = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[2]);
+
+        String result = findDay(month, day, year);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
